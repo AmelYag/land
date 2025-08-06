@@ -192,47 +192,82 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 5px;
         }
-        
+
+        .media-container:first-child {
+            min-height: auto;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
         .media-container:first-child .media-wrapper {
             width: 100%;
             max-height: 178px;
         }
-        
+
         .media-container:first-child img {
             width: 100%;
             height: 178px;
             box-shadow: none;
         }
-        
+
         .media-container:not(:first-child) {
-            min-height: 100vh;
+            /* سيتم التحكم فيه بالـ media queries أدناه */
         }
-        
+
         .media-wrapper {
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
             width: 100%;
         }
-        
-        .media-container img,
-        .media-container video {
+
+        .media-container img {
             max-width: 100%;
+            max-height: 100%;
             width: auto;
             height: auto;
             object-fit: contain;
             display: block;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
 
-        /* --- جعل الموقع لا يتغير في الهاتف --- */
-        @media (max-width: 768px) {
-            body {
-                zoom: 100%;
-                overflow-x: scroll;
+        .media-container video {
+            max-width: 100%;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            display: block;
+            background-color: #000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        @media (max-width: 1200px) {
+            .media-container:nth-child(2) .media-wrapper,
+            .media-container:nth-child(3) .media-wrapper,
+            .media-container:nth-child(4) .media-wrapper {
+                max-width: 90vw;
+                max-height: calc(90vw * (1414/2000));
             }
-            .container {
-                width: 600px;
-                padding: 30px;
+
+            .media-caption {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .media-caption {
+                font-size: 14px;
+            }
+
+            .media-container:not(:first-child) {
+                min-height: auto; /* إزالة min-height في الهاتف */
+            }
+        }
+
+        @media (min-width: 769px) {
+            .media-container:not(:first-child) {
+                min-height: 100vh; /* إبقائها في الديسكتوب */
             }
         }
 
@@ -396,3 +431,4 @@
     </script>
 </body>
 </html>
+
