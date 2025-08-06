@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نموذج طلب الشراء</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --success-color: #2e7d32;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            padding: 20px;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+            font-size: 28px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--secondary-color);
+            font-size: 16px;
+        }
+        
+        .form-group input, 
+        .form-group select {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            background-color: white;
+            transition: var(--transition);
+        }
+        
+        .form-group input:focus, 
+        .form-group select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.2);
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            justify-content: center;
+        }
+        
+        .quantity-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            font-size: 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .quantity-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .quantity-input {
+            width: 70px;
+            text-align: center;
+            margin: 0 15px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .delivery-options {
+            margin: 30px 0;
+            border: 2px solid #f0f0f0;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background-color: var(--light-color);
+        }
+        
+        .delivery-options h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .delivery-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            background-color: white;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .delivery-option:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .delivery-option input {
+            margin-left: 15px;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+        
+        .delivery-option label {
+            flex: 1;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .price-summary {
+            background-color: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin: 30px 0;
+            border: 2px solid #f0f0f0;
+        }
+        
+        .price-summary h3 {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #e0e0e0;
+            font-size: 16px;
+        }
+        
+        .price-row:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            color: var(--secondary-color);
+            font-size: 18px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .confirm-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: var(--transition);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .confirm-btn:hover {
+            background-color: #1b5e20;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.3);
+        }
+        
+        .state-price {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .form-group input, 
+            .form-group select {
+                padding: 12px 15px;
+            }
+            
+            .quantity-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            
+            .quantity-input {
+                width: 60px;
+                margin: 0 10px;
+            }
+        }
+
+
+      * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .media-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 5px;
+        }
+        
+        /* الصورة الأولى بدون هوامش */
+        .media-container:first-child {
+            min-height: auto;
+            padding: 0;
+            margin-bottom: 0;
+        }
+        
+        .media-container:first-child .media-wrapper {
+            width: 100%;
+            max-height: 178px;
+        }
+        
+        .media-container:first-child img {
+            width: 100%;
+            height: 178px;
+            object-fit: cover;
+            box-shadow: none;
+        }
+        
+        /* بقية الصور */
+        .media-container:not(:first-child) {
+            min-height: 100vh;
+           
+        }
+        
+        .media-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .media-container:nth-child(2) .media-wrapper,
+        .media-container:nth-child(3) .media-wrapper,
+        .media-container:nth-child(4) .media-wrapper {
+            max-width: 2000px;
+            max-height: 1414px;
+        }
+        
+        .media-container img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .media-container video {
+            max-width: 100%;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            display: block;
+            background-color: #000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        
+        
+        @media (max-width: 1200px) {
+            .media-container:nth-child(2) .media-wrapper,
+            .media-container:nth-child(3) .media-wrapper,
+            .media-container:nth-child(4) .media-wrapper {
+                max-width: 90vw;
+                max-height: calc(90vw * (1414/2000));
+            }
+            
+            .media-caption {
+                max-width: 90%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .media-caption {
+                font-size: 14px;
+                padding: 10px;
+                bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+  
+    <div class="media-container">
+        <div class="media-wrapper">
+            <img src="u.PNG" alt="وصف الصورة الأولى">
+            
+            
+        </div>
+    </div>
+    
+    <!-- الصورة الثانية -->
+    <div class="media-container">
+        <div class="media-wrapper">
+            <img src="1.png" alt="وصف الصورة الثانية">
+            
+            
+        </div>
+    </div>
+    
+    <!-- الصورة الثالثة -->
+    <div class="media-container">
+        <div class="media-wrapper">
+            <img src="2.png" alt="وصف الصورة الثالثة">
+            
+        </div>
+    </div>
+    
+    <!-- الصورة الرابعة -->
+    <div class="media-container">
+        <div class="media-wrapper">
+            <img src="3.png" alt="وصف الصورة الرابعة">
+        </div>
+    </div>
+    
+    <!-- الفيديو -->
+    <div class="media-container">
+        <video autoplay loop muted playsinline controls>
+            <source src="p.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+        </video>
+        
+    </div>
+
+
+    <div class="container">
+        <h1>نموذج طلب الشراء</h1>
+        
+        <form id="orderForm">
+            <!-- معلومات الزبون -->
+            <div class="form-group">
+                <label for="name">الاسم الكامل:</label>
+                <input type="text" id="name" name="name" required placeholder="أدخل اسمك الكامل">
+            </div>
+            
+            <div class="form-group">
+                <label for="state">الولاية:</label>
+                <select id="state" name="state" required>
+                    <option value="">-- اختر الولاية --</option>
+                    <option value="algiers">الجزائر (<span class="state-price">1000 دج</span>)</option>
+                    <option value="oran">وهران (<span class="state-price">800 دج</span>)</option>
+                    <option value="constantine">قسنطينة (<span class="state-price">700 دج</span>)</option>
+                    <option value="annaba">عنابة (<span class="state-price">900 دج</span>)</option>
+                    <option value="blida">البليدة (<span class="state-price">600 دج</span>)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">رقم الهاتف:</label>
+                <input type="tel" id="phone" name="phone" required placeholder="أدخل رقم هاتفك">
+            </div>
+            
+            <!-- اختيار الكمية -->
+            <div class="form-group">
+                <label>الكمية المطلوبة:</label>
+                <div class="quantity-control">
+                    <button type="button" class="quantity-btn" id="decrease">-</button>
+                    <input type="text" class="quantity-input" id="quantity" value="1" readonly>
+                    <button type="button" class="quantity-btn" id="increase">+</button>
+                </div>
+            </div>
+            
+            <!-- خيارات التوصيل -->
+            <div class="delivery-options">
+                <h3>طريقة التوصيل:</h3>
+                
+                <div class="delivery-option">
+                    <input type="radio" id="delivery-office" name="delivery" value="office" checked>
+                    <label for="delivery-office">التوصيل إلى المكتب</label>
+                </div>
+                
+                <div class="delivery-option">
+                    <input type="radio" id="delivery-home" name="delivery" value="home">
+                    <label for="delivery-home">التوصيل إلى المنزل (<span class="state-price">+200 دج</span>)</label>
+                </div>
+            </div>
+            
+            <!-- ملخص السعر -->
+            <div class="price-summary">
+                <h3>ملخص الطلب</h3>
+                
+                <div class="price-row">
+                    <span>سعر الوحدة:</span>
+                    <span id="unit-price">1900 دج</span>
+                </div>
+                
+                <div class="price-row">
+                    <span>الكمية:</span>
+                    <span id="quantity-display">1</span>
+                </div>
+                
+                <div class="price-row">
+                    <span>الولاية المختارة:</span>
+                    <span id="state-display">غير محددة</span>
+                </div>
+                
+                <div class="price-row">
+                    <span>طريقة التوصيل:</span>
+                    <span id="delivery-method">التوصيل إلى المكتب</span>
+                </div>
+                
+                <div class="price-row">
+                    <span>سعر التوصيل:</span>
+                    <span id="delivery-price">0 دج</span>
+                </div>
+                
+                <div class="price-row">
+                    <span>المجموع:</span>
+                    <span id="total-price">1900 دج</span>
+                </div>
+            </div>
+            
+            <button type="submit" class="confirm-btn">تأكيد الطلب</button>
+        </form>
+    </div>
+
+    <script>
+        // أسعار المنتجات
+        const unitPrice = 1900;
+        
+        // أسعار التوصيل لكل ولاية (للمكتب)
+        const stateDeliveryPrices = {
+            'algiers': 1000,
+            'oran': 800,
+            'constantine': 700,
+            'annaba': 900,
+            'blida': 600
+        };
+        
+        // سعر إضافي للتوصيل للمنزل
+        const homeDeliveryExtra = 200;
+        
+        // عناصر DOM
+        const quantityInput = document.getElementById('quantity');
+        const increaseBtn = document.getElementById('increase');
+        const decreaseBtn = document.getElementById('decrease');
+        const stateSelect = document.getElementById('state');
+        const deliveryOptions = document.getElementsByName('delivery');
+        const quantityDisplay = document.getElementById('quantity-display');
+        const stateDisplay = document.getElementById('state-display');
+        const deliveryMethodDisplay = document.getElementById('delivery-method');
+        const deliveryPriceDisplay = document.getElementById('delivery-price');
+        const totalPriceDisplay = document.getElementById('total-price');
+        
+        // تحديث الكمية
+        increaseBtn.addEventListener('click', function() {
+            let quantity = parseInt(quantityInput.value);
+            if (quantity < 10) {
+                quantityInput.value = quantity + 1;
+                updateOrderSummary();
+            }
+        });
+        
+        decreaseBtn.addEventListener('click', function() {
+            let quantity = parseInt(quantityInput.value);
+            if (quantity > 1) {
+                quantityInput.value = quantity - 1;
+                updateOrderSummary();
+            }
+        });
+        
+        // تحديث الولاية
+        stateSelect.addEventListener('change', function() {
+            updateOrderSummary();
+        });
+        
+        // تحديث خيارات التوصيل
+        deliveryOptions.forEach(option => {
+            option.addEventListener('change', function() {
+                updateOrderSummary();
+            });
+        });
+        
+        // تحديث ملخص الطلب
+        function updateOrderSummary() {
+            const quantity = parseInt(quantityInput.value);
+            const selectedState = stateSelect.value;
+            const deliveryMethod = document.querySelector('input[name="delivery"]:checked').value;
+            
+            // تحديث العرض
+            quantityDisplay.textContent = quantity;
+            
+            // عرض الولاية المختارة
+            if (selectedState) {
+                const selectedOption = stateSelect.options[stateSelect.selectedIndex];
+                stateDisplay.textContent = selectedOption.text.split(' (')[0];
+            } else {
+                stateDisplay.textContent = 'غير محددة';
+            }
+            
+            // حساب سعر التوصيل
+            let deliveryPrice = 0;
+            let deliveryText = '';
+            
+            if (selectedState && stateDeliveryPrices[selectedState]) {
+                deliveryPrice = stateDeliveryPrices[selectedState];
+                
+                if (deliveryMethod === 'home') {
+                    deliveryPrice += homeDeliveryExtra;
+                    deliveryText = `التوصيل إلى المنزل (+200 دج)`;
+                } else {
+                    deliveryText = `التوصيل إلى المكتب`;
+                }
+                
+                deliveryMethodDisplay.textContent = deliveryText;
+                deliveryPriceDisplay.textContent = deliveryPrice + ' دج';
+            } else {
+                deliveryMethodDisplay.textContent = 'يجب اختيار الولاية أولاً';
+                deliveryPriceDisplay.textContent = '0 دج';
+            }
+            
+            // حساب السعر الإجمالي
+            const totalPrice = (unitPrice * quantity) + (selectedState ? deliveryPrice : 0);
+            totalPriceDisplay.textContent = totalPrice + ' دج';
+        }
+        
+        // إرسال النموذج
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const state = document.getElementById('state').value;
+            const phone = document.getElementById('phone').value;
+            
+            if (!name || !state || !phone) {
+                alert('الرجاء تعبئة جميع الحقول المطلوبة');
+                return;
+            }
+            
+            const orderDetails = {
+                name: name,
+                state: stateSelect.options[stateSelect.selectedIndex].text.split(' (')[0],
+                phone: phone,
+                quantity: quantityInput.value,
+                deliveryMethod: document.querySelector('input[name="delivery"]:checked').value,
+                totalPrice: totalPriceDisplay.textContent
+            };
+            
+            // عرض رسالة تأكيد جميلة
+            const confirmationMessage = `
+                <div style="text-align: center; padding: 20px;">
+                    <h3 style="color: #2e7d32; margin-bottom: 15px;">تم تأكيد طلبك بنجاح!</h3>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: right;">
+                        <p><strong>الاسم:</strong> ${orderDetails.name}</p>
+                        <p><strong>الولاية:</strong> ${orderDetails.state}</p>
+                        <p><strong>الكمية:</strong> ${orderDetails.quantity}</p>
+                        <p><strong>طريقة التوصيل:</strong> ${orderDetails.deliveryMethod === 'office' ? 'المكتب' : 'المنزل'}</p>
+                        <p><strong>المجموع:</strong> ${orderDetails.totalPrice}</p>
+                    </div>
+                    <p>سنقوم بالاتصال بك على الرقم ${orderDetails.phone} لتأكيد التفاصيل.</p>
+                </div>
+            `;
+            
+            // يمكنك استخدام هذه الرسالة في modal بدلاً من alert العادي
+            alert(confirmationMessage);
+            
+            // هنا يمكنك إضافة كود إرسال البيانات إلى الخادم
+            // console.log(orderDetails);
+        });
+    </script>
+</body>
+</html>
